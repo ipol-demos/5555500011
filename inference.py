@@ -18,7 +18,7 @@ def evaluate(args):
     transform = utils.Preprocessing("inference", backbone="efficientnet")
 
     mus = model.cls_head.mus.t().detach().cpu().numpy()
-    cells_assignments = pickle.load(open("/home/jyotsna/Documents/Demos/geolocation/test/data/cells_assignments.pkl", "rb"))
+    cells_assignments = pickle.load(open("data/cells_assignments.pkl", "rb"))
 
     print("\n> loading background collection")
     with h5py.File(args.background, "r", driver=None) as hdf5_file:
@@ -291,15 +291,7 @@ if __name__ == "__main__":
     parser.add_argument("-layercam", "--layercam", action="store_true")
     args = parser.parse_args()
 
-    #string to bool
-    use_cpu = args.use_cpu.lower() == 'true'
-    if use_cpu:
-        use_cpu= "--use_cpu"
-    else:
-        ""
-
     if args.image_path is None and args.image_url is None:
         raise Exception("Please provide an image path or URL as input")
 
     evaluate(args)
-#if I include --combicam: it is True, otherwise it is False: No need to pass true or false values like through checkbox
