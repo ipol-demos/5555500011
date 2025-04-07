@@ -277,7 +277,7 @@ if __name__ == "__main__":
     parser.add_argument("-ip", "--image_path", type=str, default=None)
     parser.add_argument("-iu", "--image_url", type=str, default=None)
     parser.add_argument(
-        "-b", "--background", type=str, default="/home/jyotsna/Documents/Demos/geolocation/test/back_coll_features.hdf5"
+        "-b", "--background", type=str, default="./back_coll_features.hdf5"
     )
     parser.add_argument("-g", "--gpu", type=int, default=0)
     parser.add_argument("-k", "--top_k", type=int, default=10)
@@ -291,7 +291,15 @@ if __name__ == "__main__":
     parser.add_argument("-layercam", "--layercam", action="store_true")
     args = parser.parse_args()
 
+    #string to bool
+    use_cpu = args.use_cpu.lower() == 'true'
+    if use_cpu:
+        use_cpu= "--use_cpu"
+    else:
+        ""
+
     if args.image_path is None and args.image_url is None:
         raise Exception("Please provide an image path or URL as input")
 
     evaluate(args)
+#if I include --combicam: it is True, otherwise it is False: No need to pass true or false values like through checkbox
