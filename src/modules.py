@@ -97,7 +97,7 @@ class MVMFModule(nn.Module):
         super(MVMFModule, self).__init__()
 
         if initial_mu_kappa is None:
-            initial_mu_kappa = pickle.load(open("data/initial_mu_kappa.pkl", "rb"))
+            initial_mu_kappa = pickle.load(open("../data/initial_mu_kappa.pkl", "rb"))
 
         self.initialization = initial_mu_kappa
 
