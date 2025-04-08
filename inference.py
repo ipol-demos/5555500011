@@ -187,7 +187,7 @@ def evaluate(args):
           plt.savefig("/workdir/exec/score_cam.png")
           print("Score-CAM last layer figure has been generated")
 
-    if args.gradcamplusplus:
+    if args.gradpluspluscam:
         grad_cam = modules.GradCAMplusplus(model)  # Initialize GradCAM++ for the specific layer
         cam = grad_cam.generate_cam(query_tensor, max_cell)  
           
@@ -225,7 +225,7 @@ def evaluate(args):
         plt.figure(figsize=(8, 6))
         plt.imshow(final_image)
         plt.axis('off')
-        plt.savefig("/workdir/exec/gradcamplusplus.png")
+        plt.savefig("/workdir/exec/gradp_cam.png")
         print("Grad-CAM++ last layer figure has been generated")
 
     if args.layercam:
@@ -264,7 +264,7 @@ def evaluate(args):
         plt.figure(figsize=(8, 6))
         plt.imshow(final_image)
         plt.axis('off')
-        plt.savefig("/workdir/exec/layercam.png")
+        plt.savefig("/workdir/exec/layer_cam.png")
         print("Layer-CAM figure has been generated")
     
     print("Prediction (Lat,Lon): ({:.4f}, {:.4f})".format(*pr))
@@ -287,7 +287,7 @@ if __name__ == "__main__":
     parser.add_argument("-combicam", "--combicam", action="store_true")
     parser.add_argument("-scorecam", "--scorecam", action="store_true")
     parser.add_argument("-gradcam", "--gradcam", action="store_true")
-    parser.add_argument("-gradcamplusplus", "--gradcamplusplus", action="store_true")
+    parser.add_argument("-gradpluspluscam", "--gradpluspluscam", action="store_true")
     parser.add_argument("-layercam", "--layercam", action="store_true")
     args = parser.parse_args()
 
