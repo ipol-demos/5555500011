@@ -18,7 +18,7 @@ def evaluate(args):
     transform = utils.Preprocessing("inference", backbone="efficientnet")
 
     mus = model.cls_head.mus.t().detach().cpu().numpy()
-    cells_assignments = pickle.load(open("data/cells_assignments.pkl", "rb"))
+    cells_assignments = pickle.load(open("/workdir/bin/data/cells_assignments.pkl", "rb"))
 
     print("\n> loading background collection")
     with h5py.File(args.background, "r", driver=None) as hdf5_file:
