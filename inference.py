@@ -36,7 +36,7 @@ def evaluate(args):
     # Save the original image
     plt.figure(figsize=(8, 6))
     plt.imshow(query_image)
-    plt.savefig("/content/figure_ori.png")
+    plt.savefig("/workdir/exec/figure_ori.png")
     
     print("\n> run inference")
     if not args.use_cpu:
@@ -105,7 +105,7 @@ def evaluate(args):
         plt.figure(figsize=(8, 6))
         plt.imshow(final_image)
         plt.axis('off')
-        plt.savefig("/content/combi_cam.png")
+        plt.savefig("/workdir/exec/combi_cam.png")
         print("Combi-CAM figure has been generated")
 
 
@@ -145,7 +145,7 @@ def evaluate(args):
           plt.figure(figsize=(8, 6))
           plt.imshow(final_image)
           plt.axis('off')
-          plt.savefig("/content/grad_cam.png")
+          plt.savefig("/workdir/exec/grad_cam.png")
           print("Grad-CAM last layer figure has been generated")
 
     if args.scorecam:
@@ -184,7 +184,7 @@ def evaluate(args):
           plt.figure(figsize=(8, 6))
           plt.imshow(final_image)
           plt.axis('off')
-          plt.savefig("/content/score_cam.png")
+          plt.savefig("/workdir/exec/score_cam.png")
           print("Score-CAM last layer figure has been generated")
 
     if args.gradcamplusplus:
@@ -225,7 +225,7 @@ def evaluate(args):
         plt.figure(figsize=(8, 6))
         plt.imshow(final_image)
         plt.axis('off')
-        plt.savefig("/content/gradcamplusplus.png")
+        plt.savefig("/workdir/exec/gradcamplusplus.png")
         print("Grad-CAM++ last layer figure has been generated")
 
     if args.layercam:
@@ -264,7 +264,7 @@ def evaluate(args):
         plt.figure(figsize=(8, 6))
         plt.imshow(final_image)
         plt.axis('off')
-        plt.savefig("/content/layercam.png")
+        plt.savefig("/workdir/exec/layercam.png")
         print("Layer-CAM figure has been generated")
     
     print("Prediction (Lat,Lon): ({:.4f}, {:.4f})".format(*pr))
