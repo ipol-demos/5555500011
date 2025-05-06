@@ -142,7 +142,7 @@ class Preprocessing:
             if backbone == "efficientnet":
                 self.preprocess_fn = transforms.Compose(
                     [
-                        transforms.Resize(image_size),
+                        #transforms.Resize(image_size),
                         transforms.ToTensor(),
                         normalization,
                     ]

@@ -33,10 +33,12 @@ def evaluate(args):
     query_image = Image.open(img).convert("RGB")
     query_tensor = transform(query_image)
     
+    '''
     # Save the original image
     plt.figure(figsize=(8, 6))
     plt.imshow(query_image)
     plt.savefig("/workdir/exec/figure_ori.png")
+    '''
     
     print("\n> run inference")
     if not args.use_cpu:
@@ -61,7 +63,7 @@ def evaluate(args):
 
     conf = utils.prediction_density(max_cell, cell_probs, mus)
     
-    if args.combicam:
+    if args.method == "combicam":
         dict_cams = {}
         combi_cam = None
 
@@ -102,15 +104,11 @@ def evaluate(args):
             print("query_tensor_np shape and dtype:", query_tensor_np.shape, query_tensor_np.dtype)
         
         # Display the final image
-        plt.figure(figsize=(8, 6))
-        plt.imshow(final_image)
-        plt.axis('off')
-        plt.savefig("/workdir/exec/combi_cam.png")
+        plt.imsave("/workdir/exec/combi_cam.png", final_image)
         print("Combi-CAM figure has been generated")
 
 
-    if args.gradcam:
-
+    if args.method == "gradcam":
           grad_cam = modules.GradCAM(model, 31)  # Initialize GradCAM for the specific layer
           cam = grad_cam.generate_cam(query_tensor, max_cell) 
           # Normalize CAM for visualization
@@ -142,14 +140,10 @@ def evaluate(args):
               print("query_tensor_np shape and dtype:", query_tensor_np.shape, query_tensor_np.dtype)
           
           # Display the final image
-          plt.figure(figsize=(8, 6))
-          plt.imshow(final_image)
-          plt.axis('off')
-          plt.savefig("/workdir/exec/grad_cam.png")
+          plt.imsave("/workdir/exec/gradc_cam.png", final_image)
           print("Grad-CAM last layer figure has been generated")
 
-    if args.scorecam:
-
+    if args.method == "scorecam":
           grad_cam = modules.ScoreCAM(model, 31)  # Initialize ScoreCAM for the specific layer
           cam = grad_cam.generate_cam(query_tensor, max_cell) 
           # Normalize CAM for visualization
@@ -181,13 +175,10 @@ def evaluate(args):
               print("query_tensor_np shape and dtype:", query_tensor_np.shape, query_tensor_np.dtype)
           
           # Display the final image
-          plt.figure(figsize=(8, 6))
-          plt.imshow(final_image)
-          plt.axis('off')
-          plt.savefig("/workdir/exec/score_cam.png")
+          plt.imsave("/workdir/exec/score_cam.png", final_image)
           print("Score-CAM last layer figure has been generated")
 
-    if args.gradpluspluscam:
+    if args.method == "gradpluspluscam":
         grad_cam = modules.GradCAMplusplus(model)  # Initialize GradCAM++ for the specific layer
         cam = grad_cam.generate_cam(query_tensor, max_cell)  
           
@@ -222,13 +213,10 @@ def evaluate(args):
             print("query_tensor_np shape and dtype:", query_tensor_np.shape, query_tensor_np.dtype)
         
         # Display the final image
-        plt.figure(figsize=(8, 6))
-        plt.imshow(final_image)
-        plt.axis('off')
-        plt.savefig("/workdir/exec/gradp_cam.png")
+        plt.imsave("/workdir/exec/gradp_cam.png", final_image)
         print("Grad-CAM++ last layer figure has been generated")
 
-    if args.layercam:
+    if args.method == "layercam":
         grad_cam = modules.LayerCAM(model)  # Initialize LayerCAM for the specific layer
         cam = grad_cam.generate_cam(query_tensor, max_cell)  
           
@@ -261,10 +249,7 @@ def evaluate(args):
             print("query_tensor_np shape and dtype:", query_tensor_np.shape, query_tensor_np.dtype)
         
         # Display the final image
-        plt.figure(figsize=(8, 6))
-        plt.imshow(final_image)
-        plt.axis('off')
-        plt.savefig("/workdir/exec/layer_cam.png")
+        plt.imsave("/workdir/exec/layer_cam.png", final_image)
         print("Layer-CAM figure has been generated")
     
     print("Prediction (Lat,Lon): ({:.4f}, {:.4f})".format(*pr))
@@ -284,11 +269,9 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--eps", type=float, default=1.0)
     parser.add_argument("-cpu", "--use_cpu", action="store_true")
     parser.add_argument("-cs", "--conf_scale", type=int, default=25)
-    parser.add_argument("-combicam", "--combicam", action="store_true")
-    parser.add_argument("-scorecam", "--scorecam", action="store_true")
-    parser.add_argument("-gradcam", "--gradcam", action="store_true")
-    parser.add_argument("-gradpluspluscam", "--gradpluspluscam", action="store_true")
-    parser.add_argument("-layercam", "--layercam", action="store_true")
+    parser.add_argument("-m", "--method", type=str,
+        choices=["combicam", "scorecam", "gradcam", "gradpluspluscam", "layercam"], required=True,
+            help="Select a CAM method to use")
     args = parser.parse_args()
 
     if args.image_path is None and args.image_url is None:
